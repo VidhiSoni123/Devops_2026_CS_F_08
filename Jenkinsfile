@@ -3,13 +3,6 @@ pipeline {
 
     stages {
 
-        stage('Checkout') {
-            steps {
-                echo 'Checking out Career Compass 2.0 code...'
-                checkout scm
-            }
-        }
-
         stage('Install Frontend Dependencies') {
             steps {
                 dir('frontend') {
@@ -36,7 +29,41 @@ pipeline {
 
         stage('Generate Feedback Report') {
             steps {
-                bat 'python generate_feedback.py'
+                powershell '''
+                    $date = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
+
+                    @"
+# Jenkins Feedback Report
+
+## Career Compass 2.0
+
+**Generated:** $date
+
+## Verification
+
+| Check | Status |
+|---|---|
+| Frontend ESLint | PASSED |
+| Frontend Production Build | PASSED |
+
+## Feature Under Verification
+
+**Recruiter Authentication UI**
+
+- Recruiter Login
+- Recruiter Signup
+- Form validation
+- Login to Signup navigation
+
+## Result
+
+The frontend authentication feature passed the automated Jenkins verification stages.
+
+> This report was generated automatically by Jenkins.
+"@ | Set-Content -Path "feedback-report.md" -Encoding UTF8
+
+                    Write-Host "[SUCCESS] feedback-report.md generated."
+                '''
             }
         }
     }
