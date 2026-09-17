@@ -145,3 +145,136 @@
   color: var(--text-muted);
   line-height: 1.6;
 }
+
+/* ================================
+   Recruiter Authentication
+   ================================ */
+
+.auth-page {
+  min-height: calc(100vh - 86px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px 20px;
+}
+
+.auth-card {
+  width: 100%;
+  max-width: 430px;
+  background: #151722;
+  border: 1px solid #292c3a;
+  border-radius: 16px;
+  padding: 40px;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.35);
+}
+
+.auth-card h1 {
+  margin-bottom: 10px;
+  font-size: 32px;
+}
+
+.auth-card > p {
+  color: #a9adbd;
+  margin-bottom: 30px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  margin-bottom: 8px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.form-group input {
+  padding: 13px 14px;
+  border: 1px solid #343849;
+  border-radius: 8px;
+  background: #0f1017;
+  color: #ffffff;
+  font-size: 15px;
+  outline: none;
+}
+
+.form-group input:focus {
+  border-color: #9b5cff;
+  box-shadow: 0 0 0 2px rgba(155, 92, 255, 0.15);
+}
+
+.auth-button {
+  width: 100%;
+  padding: 13px;
+  border: none;
+  border-radius: 8px;
+  background: #9b5cff;
+  color: white;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 5px;
+}
+
+.auth-button:hover {
+  background: #8647e8;
+}
+
+.auth-footer {
+  text-align: center;
+  margin-top: 25px;
+  margin-bottom: 0;
+}
+
+.auth-footer a {
+  color: #9b5cff;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.auth-footer a:hover {
+  text-decoration: underline;
+}
+.form-error {
+  color: #ff6b6b;
+  font-size: 13px;
+  margin-top: 6px;
+}
+
+.signup-page {
+  align-items: flex-start;
+  padding-top: 60px;
+  padding-bottom: 60px;
+}
+
+/* Compact layout for Recruiter Signup */
+
+.signup-page .auth-card {
+  padding: 32px;
+}
+
+.signup-page .auth-card h1 {
+  margin-bottom: 8px;
+}
+
+.signup-page .auth-card > p {
+  margin-bottom: 22px;
+}
+
+.signup-page .form-group {
+  margin-bottom: 14px;
+}
+
+.signup-page .form-group input {
+  padding: 11px 13px;
+}
+
+.signup-page .auth-button {
+  margin-top: 4px;
+}
+
+.signup-page .auth-footer {
+  margin-top: 20px;
+}
