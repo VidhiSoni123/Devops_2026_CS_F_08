@@ -7,7 +7,11 @@ import Home from './pages/Home'
 import RecruiterPortal from './pages/recruiter/RecruiterPortal'
 import RecruiterLogin from './pages/recruiter/RecruiterLogin'
 import CandidatePortal from './pages/candidate/CandidatePortal'
+import CandidateLogin from './pages/candidate/CandidateLogin'
+import CandidateSignup from './pages/candidate/CandidateSignup'
 import MainLayout from './layouts/MainLayout'
+
+
 
 function App() {
   return (
@@ -21,6 +25,8 @@ function App() {
           <Route path="/recruiter/signup" element={<RecruiterSignup />} />
 
           <Route path="/candidate" element={<CandidatePortal />} />
+          <Route path="/candidate/login" element={<CandidateLogin />} />
+          <Route path="/candidate/signup" element={<CandidateSignup />} />
         </Routes>
       </MainLayout>
     </BrowserRouter>
