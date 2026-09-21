@@ -10,7 +10,7 @@ import CandidatePortal from './pages/candidate/CandidatePortal'
 import CandidateLogin from './pages/candidate/CandidateLogin'
 import CandidateSignup from './pages/candidate/CandidateSignup'
 import MainLayout from './layouts/MainLayout'
-import { AuthProvider } from './context/AuthContext'
+import { AuthProvider } from './context/AuthProvider'
 import ProtectedRoute from './components/ProtectedRoute'
 
 
