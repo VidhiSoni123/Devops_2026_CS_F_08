@@ -1,7 +1,9 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
-
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext";
 function RecruiterSignup() {
+  const navigate = useNavigate();
+  const { login } = useAuth();
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -60,8 +62,11 @@ function RecruiterSignup() {
     setErrors(newErrors);
 
     if (Object.keys(newErrors).length === 0) {
-      console.log("Recruiter Signup:", formData);
-    }
+  console.log("Recruiter Signup:", formData);
+
+  login("recruiter");
+  navigate("/recruiter");
+}
   };
 
   return (

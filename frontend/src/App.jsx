@@ -10,26 +10,44 @@ import CandidatePortal from './pages/candidate/CandidatePortal'
 import CandidateLogin from './pages/candidate/CandidateLogin'
 import CandidateSignup from './pages/candidate/CandidateSignup'
 import MainLayout from './layouts/MainLayout'
+import { AuthProvider } from './context/AuthContext'
+import ProtectedRoute from './components/ProtectedRoute'
 
 
 
 function App() {
   return (
-    <BrowserRouter>
-      <MainLayout>
-        <Routes>
-          <Route path="/" element={<Home />} />
+    <AuthProvider>
+      <BrowserRouter>
+        <MainLayout>
+          <Routes>
+            <Route path="/" element={<Home />} />
 
-          <Route path="/recruiter" element={<RecruiterPortal />} />
+           <Route
+  path="/recruiter"
+  element={
+    <ProtectedRoute role="recruiter">
+      <RecruiterPortal />
+    </ProtectedRoute>
+  }
+/>
           <Route path="/recruiter/login" element={<RecruiterLogin />} />
           <Route path="/recruiter/signup" element={<RecruiterSignup />} />
 
-          <Route path="/candidate" element={<CandidatePortal />} />
+          <Route
+  path="/candidate"
+  element={
+    <ProtectedRoute role="candidate">
+      <CandidatePortal />
+    </ProtectedRoute>
+  }
+/>
           <Route path="/candidate/login" element={<CandidateLogin />} />
           <Route path="/candidate/signup" element={<CandidateSignup />} />
-        </Routes>
-      </MainLayout>
-    </BrowserRouter>
+          </Routes>
+        </MainLayout>
+      </BrowserRouter>
+    </AuthProvider>
   )
 }
 

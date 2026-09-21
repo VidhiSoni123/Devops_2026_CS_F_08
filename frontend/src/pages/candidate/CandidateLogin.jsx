@@ -1,7 +1,10 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
-
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext";
 function CandidateLogin() {
+
+  const navigate = useNavigate();
+  const { login } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState({});
@@ -29,11 +32,14 @@ function CandidateLogin() {
 
     // Continue only when there are no errors
     if (Object.keys(newErrors).length === 0) {
-      console.log("Candidate Login:", {
-        email,
-        password,
-      });
-    }
+  console.log("Candidate Login:", {
+    email,
+    password,
+  });
+
+  login("candidate");
+  navigate("/candidate");
+}
   };
 
   return (

@@ -1,6 +1,9 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext";
 function RecruiterLogin() {
+  const navigate = useNavigate();
+  const { login } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState({});
@@ -28,11 +31,14 @@ function RecruiterLogin() {
 
     // Continue only when there are no errors
     if (Object.keys(newErrors).length === 0) {
-      console.log("Recruiter Login:", {
-        email,
-        password,
-      });
-    }
+  console.log("Recruiter Login:", {
+    email,
+    password,
+  });
+
+  login("recruiter");
+  navigate("/recruiter");
+}
   };
 
   return (
