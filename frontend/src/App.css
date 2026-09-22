@@ -1,3 +1,7 @@
+* {
+  box-sizing: border-box;
+}
+
 .app-layout {
   min-height: 100vh;
   background: var(--bg);
@@ -57,17 +61,88 @@
 @media (max-width: 700px) {
   .navbar {
     height: auto;
-    padding: 18px 20px;
+    padding: 16px 18px;
     flex-direction: column;
-    gap: 14px;
+    gap: 12px;
+  }
+
+  .navbar-brand a {
+    font-size: 18px;
   }
 
   .navbar-links {
-    gap: 18px;
+    gap: 16px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .navbar-links a {
+    font-size: 14px;
   }
 
   .page-content {
     padding: 28px 18px;
+  }
+
+  /* Portal */
+
+  .portal-layout {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    width: 100%;
+    padding: 18px 14px;
+    border-right: none;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .sidebar-title {
+    padding: 0 8px 14px;
+  }
+
+  .sidebar-nav {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .sidebar-nav a {
+    padding: 10px;
+  }
+
+  .portal-content {
+    padding: 28px 18px;
+  }
+
+  .portal-content h1,
+  .portal-header h1 {
+    font-size: 26px;
+  }
+
+  /* Authentication */
+
+  .auth-page {
+    padding: 28px 16px;
+    align-items: flex-start;
+  }
+
+  .auth-card {
+    max-width: 100%;
+    padding: 28px 22px;
+  }
+
+  .auth-card h1 {
+    font-size: 28px;
+  }
+
+  .signup-page {
+    padding-top: 28px;
+    padding-bottom: 28px;
+  }
+
+  .signup-page .auth-card {
+    padding: 26px 20px;
   }
 }
 
@@ -237,6 +312,7 @@
 .auth-footer a:hover {
   text-decoration: underline;
 }
+
 .form-error {
   color: #ff6b6b;
   font-size: 13px;
