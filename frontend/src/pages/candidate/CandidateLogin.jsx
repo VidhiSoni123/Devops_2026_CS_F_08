@@ -1,45 +1,54 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/useAuth";
-function CandidateLogin() {
+import API from "../../services/api";
 
+function CandidateLogin() {
   const navigate = useNavigate();
   const { login } = useAuth();
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState({});
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     const newErrors = {};
 
-    // Check email
     if (!email.trim()) {
       newErrors.email = "Email is required";
     } else if (!email.includes("@")) {
       newErrors.email = "Enter a valid email address";
     }
 
-    // Check password
     if (!password.trim()) {
       newErrors.password = "Password is required";
-    } else if (password.length < 6) {
-      newErrors.password = "Password must be at least 6 characters";
     }
 
     setErrors(newErrors);
 
-    // Continue only when there are no errors
     if (Object.keys(newErrors).length === 0) {
-  console.log("Candidate Login:", {
-    email,
-    password,
-  });
+      try {
+        const response = await API.post("/auth/candidate/login", {
+          email,
+          password,
+        });
 
-  login("candidate");
-  navigate("/candidate");
-}
+        console.log(response.data);
+
+        login("candidate");
+        navigate("/candidate");
+      } catch (error) {
+        const message =
+          error.response?.data?.message ||
+          "Login failed. Please try again.";
+
+        setErrors({
+          email: message,
+        });
+      }
+    }
   };
 
   return (
@@ -47,7 +56,7 @@ function CandidateLogin() {
       <div className="auth-card">
         <h1>Candidate Login</h1>
 
-        <p>Sign in to access your candidate dashboard.</p>
+        <p>Login to continue your career journey.</p>
 
         <form onSubmit={handleSubmit}>
           <div className="form-group">
@@ -89,7 +98,7 @@ function CandidateLogin() {
 
         <p className="auth-footer">
           Don't have an account?{" "}
-          <Link to="/candidate/signup">Sign up</Link>
+          <Link to="/candidate/signup">Create Account</Link>
         </p>
       </div>
     </div>

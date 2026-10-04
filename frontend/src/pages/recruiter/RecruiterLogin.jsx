@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/useAuth";
+import API from "../../services/api";
 function RecruiterLogin() {
   const navigate = useNavigate();
   const { login } = useAuth();
@@ -8,7 +9,7 @@ function RecruiterLogin() {
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState({});
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     const newErrors = {};
@@ -31,13 +32,24 @@ function RecruiterLogin() {
 
     // Continue only when there are no errors
     if (Object.keys(newErrors).length === 0) {
-  console.log("Recruiter Login:", {
-    email,
-    password,
-  });
+  try {
+    const response = await API.post("/auth/recruiter/login", {
+      email,
+      password,
+    });
 
-  login("recruiter");
-  navigate("/recruiter");
+    console.log(response.data);
+
+    login("recruiter");
+    navigate("/recruiter");
+  } catch (error) {
+    const message =
+      error.response?.data?.message || "Login failed. Please try again.";
+
+    setErrors({
+      email: message,
+    });
+  }
 }
   };
 

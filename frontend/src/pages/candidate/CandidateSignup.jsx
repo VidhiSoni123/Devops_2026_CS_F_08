@@ -1,10 +1,12 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/useAuth";
+import API from "../../services/api";
 
 function CandidateSignup() {
   const navigate = useNavigate();
   const { login } = useAuth();
+
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -23,7 +25,7 @@ function CandidateSignup() {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     const newErrors = {};
@@ -58,11 +60,27 @@ function CandidateSignup() {
 
     // Continue only when there are no errors
     if (Object.keys(newErrors).length === 0) {
-  console.log("Candidate Signup:", formData);
+      try {
+        const response = await API.post("/auth/candidate/signup", {
+          name: formData.name,
+          email: formData.email,
+          password: formData.password,
+        });
 
-  login("candidate");
-  navigate("/candidate");
-}
+        console.log(response.data);
+
+        login("candidate");
+        navigate("/candidate");
+      } catch (error) {
+        const message =
+          error.response?.data?.message ||
+          "Signup failed. Please try again.";
+
+        setErrors({
+          email: message,
+        });
+      }
+    }
   };
 
   return (
