@@ -354,3 +354,77 @@
 .signup-page .auth-footer {
   margin-top: 20px;
 }
+/* ================================
+   Recruiter Dashboard
+   ================================ */
+
+.dashboard-cards {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 18px;
+  margin-top: 32px;
+}
+
+.dashboard-card {
+  padding: 22px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  transition: border-color 0.2s ease, transform 0.2s ease;
+}
+
+.dashboard-card:hover {
+  border-color: var(--accent);
+  transform: translateY(-2px);
+}
+
+.dashboard-card-label {
+  display: block;
+  color: var(--text-muted);
+  font-size: 14px;
+  font-weight: 500;
+  margin-bottom: 12px;
+}
+
+.dashboard-card h2 {
+  margin: 0 0 8px;
+  font-size: 30px;
+  color: var(--text);
+}
+
+.dashboard-card p {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: 13px;
+}
+
+.dashboard-section {
+  margin-top: 28px;
+  padding: 24px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+}
+
+.dashboard-section h2 {
+  margin: 0 0 8px;
+  font-size: 20px;
+}
+
+.dashboard-section p {
+  margin: 0;
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+
+@media (max-width: 1000px) {
+  .dashboard-cards {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .dashboard-cards {
+    grid-template-columns: 1fr;
+  }
+}

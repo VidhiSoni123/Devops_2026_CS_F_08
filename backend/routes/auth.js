@@ -91,6 +91,8 @@ router.post("/recruiter/login", async (req, res) => {
             }
         });
     } catch (error) {
+        console.error("RECRUITER LOGIN ERROR:", error);
+
         res.status(500).json({
             message: "Server error",
             error: error.message
