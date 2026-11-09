@@ -8,18 +8,24 @@ export function AuthProvider({ children }) {
     return savedUser ? JSON.parse(savedUser) : null;
   });
 
-  const login = (userType) => {
-    const loggedInUser = {
-      type: userType,
-    };
+  const login = (userData) => {
+  const loggedInUser =
+    typeof userData === "string"
+      ? { type: userData }
+      : {
+          type: userData.role,
+          id: userData.id,
+          name: userData.name,
+          email: userData.email,
+        };
 
-    setUser(loggedInUser);
+  setUser(loggedInUser);
 
-    localStorage.setItem(
-      "careerCompassUser",
-      JSON.stringify(loggedInUser)
-    );
-  };
+  localStorage.setItem(
+    "careerCompassUser",
+    JSON.stringify(loggedInUser)
+  );
+};
 
   const logout = () => {
     setUser(null);

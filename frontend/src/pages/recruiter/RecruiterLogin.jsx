@@ -40,7 +40,7 @@ function RecruiterLogin() {
 
     console.log(response.data);
 
-    login("recruiter");
+    login(response.data.user);
     navigate("/recruiter");
   } catch (error) {
     const message =
