@@ -428,3 +428,148 @@
     grid-template-columns: 1fr;
   }
 }
+/* =================================
+   CANDIDATE DASHBOARD
+   ================================= */
+
+.candidate-welcome {
+  margin-top: 30px;
+  padding: 28px;
+  border-left: 4px solid var(--accent);
+}
+
+.candidate-welcome h2 {
+  margin: 0 0 12px;
+  font-size: 23px;
+  color: var(--text);
+}
+
+.candidate-welcome p {
+  line-height: 1.7;
+  color: var(--text-muted);
+}
+
+.candidate-upload-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 22px;
+  margin-top: 25px;
+}
+
+.candidate-upload-card {
+  padding: 28px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  transition: 0.2s ease;
+}
+
+.candidate-upload-card:hover {
+  border-color: var(--accent);
+  transform: translateY(-3px);
+}
+
+.upload-icon {
+  font-size: 32px;
+  margin-bottom: 15px;
+}
+
+.candidate-upload-card h2 {
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
+.candidate-upload-card p {
+  color: var(--text-muted);
+  line-height: 1.6;
+  margin-bottom: 20px;
+}
+
+.upload-button {
+  display: inline-block;
+  padding: 11px 20px;
+  background: var(--accent);
+  color: white;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.upload-button:hover {
+  opacity: 0.85;
+}
+
+.file-status {
+  margin-top: 15px;
+  min-height: 22px;
+  font-size: 13px;
+  color: var(--text-muted);
+  overflow-wrap: anywhere;
+}
+
+.file-success {
+  color: #4ade80;
+}
+
+.jd-textarea {
+  width: 100%;
+  margin-top: 20px;
+  padding: 14px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--text);
+  font-family: inherit;
+  font-size: 14px;
+  resize: vertical;
+  outline: none;
+}
+
+.jd-textarea:focus {
+  border-color: var(--accent);
+}
+
+.candidate-action-section {
+  margin-top: 25px;
+  padding: 28px;
+  text-align: center;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+}
+
+.candidate-action-section h2 {
+  margin-bottom: 10px;
+}
+
+.candidate-action-section p {
+  margin-bottom: 22px;
+  line-height: 1.6;
+}
+
+.analyze-button {
+  padding: 13px 30px;
+  border: none;
+  border-radius: 8px;
+  background: var(--accent);
+  color: white;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.analyze-button:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.analyze-button:not(:disabled):hover {
+  opacity: 0.85;
+}
+
+@media (max-width: 800px) {
+  .candidate-upload-grid {
+    grid-template-columns: 1fr;
+  }
+}
