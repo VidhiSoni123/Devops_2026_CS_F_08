@@ -21,6 +21,8 @@ labelNames: ["method", "route", "status"]
 });
 
 const uploadRoutes = require("./routes/uploads");
+const resumeRoutes = require("./routes/resumes");
+const jobDescriptionRoutes = require("./routes/jobDescriptions");
 
 register.registerMetric(httpRequestsTotal);
 
@@ -44,6 +46,8 @@ next();
 // Routes
 app.use("/api/auth", authRoutes);
 app.use("/api/uploads", uploadRoutes);
+app.use("/api/resumes", resumeRoutes);
+app.use("/api/job-descriptions", jobDescriptionRoutes);
 
 app.get("/metrics", async (req, res) => {
 res.set("Content-Type", register.contentType);

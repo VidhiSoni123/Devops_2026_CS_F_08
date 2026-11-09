@@ -1,18 +1,131 @@
 import { useState } from 'react'
+import axios from 'axios'
 import Sidebar from '../../components/Sidebar'
 import PortalHeader from '../../components/PortalHeader'
+import { useAuth } from '../../context/useAuth'
 
 function CandidatePortal() {
-  const [resume, setResume] = useState(null)
+  const { user } = useAuth()
+
+  const [resumes, setResumes] = useState([])
   const [jobDescription, setJobDescription] = useState(null)
   const [jdText, setJdText] = useState('')
 
+  const [uploading, setUploading] = useState(false)
+  const [uploadMessage, setUploadMessage] = useState('')
+  const [jdUploadMessage, setJdUploadMessage] = useState('')
+
+  // Resume File Selection
   const handleResumeUpload = (event) => {
-    setResume(event.target.files[0] || null)
+    const files = Array.from(event.target.files || [])
+
+    const pdfFiles = files.filter(
+      (file) =>
+        file.type === 'application/pdf' &&
+        file.name.toLowerCase().endsWith('.pdf')
+    )
+
+    setResumes(pdfFiles)
+    setUploadMessage('')
+
+    if (pdfFiles.length !== files.length) {
+      setUploadMessage('Only PDF files are allowed.')
+    }
   }
 
+  // Resume Upload API
+  const handleResumeSubmit = async () => {
+    if (!user?.id || resumes.length === 0) {
+      setUploadMessage('Please select resumes and login again.')
+      return
+    }
+
+    const formData = new FormData()
+
+    resumes.forEach((file) => {
+      formData.append('resumes', file)
+    })
+
+    try {
+      setUploading(true)
+      setUploadMessage('Uploading resumes...')
+
+      const response = await axios.post(
+        'http://localhost:5000/api/resumes/multiple',
+        formData,
+        {
+          headers: {
+            'x-candidate-id': user.id
+          }
+        }
+      )
+
+      setUploadMessage(
+        `${response.data.totalUploaded} resume(s) uploaded successfully.`
+      )
+
+    } catch (error) {
+      setUploadMessage(
+        error.response?.data?.message || 'Resume upload failed.'
+      )
+    } finally {
+      setUploading(false)
+    }
+  }
+
+  // JD File Selection
   const handleJDUpload = (event) => {
-    setJobDescription(event.target.files[0] || null)
+    const file = event.target.files[0] || null
+
+    setJobDescription(file)
+    setJdUploadMessage('')
+  }
+
+  // JD Upload API
+  const handleJDSubmit = async () => {
+    if (!user?.id) {
+      setJdUploadMessage('Please login again.')
+      return
+    }
+
+    if (!jobDescription && !jdText.trim()) {
+      setJdUploadMessage(
+        'Please select a JD file or enter JD text.'
+      )
+      return
+    }
+
+    const formData = new FormData()
+
+    if (jobDescription) {
+      formData.append('jdFile', jobDescription)
+    }
+
+    formData.append('jdText', jdText)
+
+    try {
+      setUploading(true)
+      setJdUploadMessage('Uploading job description...')
+
+      const response = await axios.post(
+        'http://localhost:5000/api/job-descriptions/upload',
+        formData,
+        {
+          headers: {
+            'x-candidate-id': user.id
+          }
+        }
+      )
+
+      setJdUploadMessage(response.data.message)
+
+    } catch (error) {
+      setJdUploadMessage(
+        error.response?.data?.message || 'JD upload failed.'
+      )
+    } finally {
+      setUploading(false)
+    }
   }
 
   return (
@@ -28,41 +141,67 @@ function CandidatePortal() {
         <div className="candidate-welcome dashboard-section">
           <h2>Welcome to Career Compass!</h2>
           <p>
-            Upload your resume and a job description to discover
+            Upload your resumes and a job description to discover
             your ATS compatibility, skill gaps and career opportunities.
           </p>
         </div>
 
         <div className="candidate-upload-grid">
 
+          {/* Resume Upload Section */}
           <div className="candidate-upload-card">
             <div className="upload-icon">📄</div>
-            <h2>Upload Your Resume</h2>
-            <p>Upload your latest resume in PDF format.</p>
+
+            <h2>Upload Your Resumes</h2>
+            <p>Select multiple resumes in PDF format.</p>
 
             <label className="upload-button">
-              Choose Resume
+              Choose Resumes
               <input
                 type="file"
-                accept=".pdf"
+                accept=".pdf,application/pdf"
+                multiple
                 onChange={handleResumeUpload}
                 hidden
               />
             </label>
 
             <div className="file-status">
-              {resume ? (
-                <span className="file-success">
-                  ✓ {resume.name}
-                </span>
+              {resumes.length > 0 ? (
+                <div>
+                  <p className="file-success">
+                    ✓ {resumes.length} resume(s) selected
+                  </p>
+
+                  {resumes.map((file, index) => (
+                    <p key={`${file.name}-${index}`}>
+                      {index + 1}. {file.name}
+                    </p>
+                  ))}
+                </div>
               ) : (
-                <span>No resume selected</span>
+                <span>No resumes selected</span>
               )}
             </div>
+
+            <button
+              type="button"
+              className="upload-button"
+              onClick={handleResumeSubmit}
+              disabled={uploading || resumes.length === 0}
+            >
+              {uploading ? 'Uploading...' : 'Upload Resumes'}
+            </button>
+
+            {uploadMessage && (
+              <p className="file-status">{uploadMessage}</p>
+            )}
           </div>
 
+          {/* Job Description Section */}
           <div className="candidate-upload-card">
             <div className="upload-icon">💼</div>
+
             <h2>Job Description</h2>
             <p>Upload a JD document or paste its contents below.</p>
 
@@ -93,12 +232,32 @@ function CandidatePortal() {
               onChange={(event) => setJdText(event.target.value)}
               rows="5"
             />
+
+            <button
+              type="button"
+              className="upload-button"
+              onClick={handleJDSubmit}
+              disabled={
+                uploading ||
+                (!jobDescription && !jdText.trim())
+              }
+            >
+              {uploading
+                ? 'Uploading...'
+                : 'Upload Job Description'}
+            </button>
+
+            {jdUploadMessage && (
+              <p className="file-status">{jdUploadMessage}</p>
+            )}
           </div>
 
         </div>
 
+        {/* Resume Analysis Section */}
         <div className="candidate-action-section">
           <h2>Ready to Analyze?</h2>
+
           <p>
             Get insights into your resume compatibility and
             identify areas for improvement.
@@ -106,7 +265,10 @@ function CandidatePortal() {
 
           <button
             className="analyze-button"
-            disabled={!resume || (!jobDescription && !jdText.trim())}
+            disabled={
+              resumes.length === 0 ||
+              (!jobDescription && !jdText.trim())
+            }
           >
             Analyze My Resume
           </button>
