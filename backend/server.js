@@ -23,6 +23,7 @@ labelNames: ["method", "route", "status"]
 const uploadRoutes = require("./routes/uploads");
 const resumeRoutes = require("./routes/resumes");
 const jobDescriptionRoutes = require("./routes/jobDescriptions");
+const analysisRoutes = require("./routes/analysis");
 
 register.registerMetric(httpRequestsTotal);
 
@@ -48,6 +49,7 @@ app.use("/api/auth", authRoutes);
 app.use("/api/uploads", uploadRoutes);
 app.use("/api/resumes", resumeRoutes);
 app.use("/api/job-descriptions", jobDescriptionRoutes);
+app.use("/api/analysis", analysisRoutes);
 
 app.get("/metrics", async (req, res) => {
 res.set("Content-Type", register.contentType);
@@ -59,6 +61,7 @@ res.json({
 message: "Career Compass 2.0 Backend is running"
 });
 });
+
 
 // MongoDB connection
 mongoose

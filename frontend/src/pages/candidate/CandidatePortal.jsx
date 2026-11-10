@@ -21,6 +21,13 @@ function CandidatePortal() {
   const [historyLoading, setHistoryLoading] = useState(false)
   const [historyError, setHistoryError] = useState('')
 
+  // ATS Analysis States
+  const [selectedResumeId, setSelectedResumeId] = useState('')
+  const [selectedJDId, setSelectedJDId] = useState('')
+  const [analysisLoading, setAnalysisLoading] = useState(false)
+  const [analysisResult, setAnalysisResult] = useState(null)
+  const [analysisError, setAnalysisError] = useState('')
+
   // Fetch Candidate Upload History
   const fetchUploadHistory = useCallback(async () => {
     if (!user?.id) return
@@ -112,6 +119,7 @@ function CandidatePortal() {
         `${response.data.totalUploaded} resume(s) uploaded successfully.`
       )
 
+      setResumes([])
       await fetchUploadHistory()
 
     } catch (error) {
@@ -169,6 +177,9 @@ function CandidatePortal() {
 
       setJdUploadMessage(response.data.message)
 
+      setJobDescription(null)
+      setJdText('')
+
       await fetchUploadHistory()
 
     } catch (error) {
@@ -177,6 +188,42 @@ function CandidatePortal() {
       )
     } finally {
       setUploading(false)
+    }
+  }
+
+  // ATS Resume Analysis API
+  const handleAnalyze = async () => {
+    if (!user?.id || !selectedResumeId || !selectedJDId) {
+      setAnalysisError('Please select a resume and job description.')
+      return
+    }
+
+    try {
+      setAnalysisLoading(true)
+      setAnalysisError('')
+      setAnalysisResult(null)
+
+      const response = await axios.post(
+        'http://localhost:5000/api/analysis/analyze',
+        {
+          resumeId: selectedResumeId,
+          jobDescriptionId: selectedJDId
+        },
+        {
+          headers: {
+            'x-candidate-id': user.id
+          }
+        }
+      )
+
+      setAnalysisResult(response.data.analysis)
+
+    } catch (error) {
+      setAnalysisError(
+        error.response?.data?.message || 'Resume analysis failed.'
+      )
+    } finally {
+      setAnalysisLoading(false)
     }
   }
 
@@ -415,22 +462,166 @@ function CandidatePortal() {
 
         {/* Resume Analysis Section */}
         <div className="candidate-action-section">
-          <h2>Ready to Analyze?</h2>
+          <h2>Resume ATS Analysis</h2>
 
           <p>
-            Get insights into your resume compatibility and
-            identify areas for improvement.
+            Select an uploaded resume and job description
+            to check your ATS compatibility.
           </p>
 
+          {/* Resume Selection */}
+          <div className="analysis-selection">
+            <label htmlFor="resume-select">
+              Select Resume
+            </label>
+
+            <select
+              id="resume-select"
+              value={selectedResumeId}
+              onChange={(event) => {
+                setSelectedResumeId(event.target.value)
+                setAnalysisResult(null)
+                setAnalysisError('')
+              }}
+            >
+              <option value="">Choose an uploaded resume</option>
+
+              {uploadedResumes.map((resume) => (
+                <option
+                  key={resume._id}
+                  value={resume._id}
+                >
+                  {resume.originalFileName}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          {/* Job Description Selection */}
+          <div className="analysis-selection">
+            <label htmlFor="jd-select">
+              Select Job Description
+            </label>
+
+            <select
+              id="jd-select"
+              value={selectedJDId}
+              onChange={(event) => {
+                setSelectedJDId(event.target.value)
+                setAnalysisResult(null)
+                setAnalysisError('')
+              }}
+            >
+              <option value="">
+                Choose an uploaded job description
+              </option>
+
+              {uploadedJDs.map((jd) => (
+                <option
+                  key={jd._id}
+                  value={jd._id}
+                >
+                  {jd.originalFileName ||
+                    'Text-based Job Description'}
+                </option>
+              ))}
+            </select>
+          </div>
+
           <button
+            type="button"
             className="analyze-button"
+            onClick={handleAnalyze}
             disabled={
-              resumes.length === 0 ||
-              (!jobDescription && !jdText.trim())
+              !selectedResumeId ||
+              !selectedJDId ||
+              analysisLoading
             }
           >
-            Analyze My Resume
+            {analysisLoading
+              ? 'Analyzing Resume...'
+              : 'Analyze My Resume'}
           </button>
+
+          {analysisError && (
+            <p className="history-error">
+              {analysisError}
+            </p>
+          )}
+
+          {/* ATS Analysis Results */}
+          {analysisResult && (
+            <div className="analysis-result">
+
+              <h2>ATS Analysis Results</h2>
+
+              <p>
+                <strong>Resume:</strong>{' '}
+                {analysisResult.resumeName}
+              </p>
+
+              <p>
+                <strong>Job Description:</strong>{' '}
+                {analysisResult.jobDescriptionName}
+              </p>
+
+              <div className="ats-score">
+                <h3>ATS Compatibility Score</h3>
+
+                <div className="ats-score-value">
+                  {analysisResult.atsScore}%
+                </div>
+              </div>
+
+              <div className="analysis-stats">
+                <div>
+                  <h3>{analysisResult.totalRequiredSkills}</h3>
+                  <p>Required Skills</p>
+                </div>
+
+                <div>
+                  <h3>{analysisResult.totalMatchedSkills}</h3>
+                  <p>Matched Skills</p>
+                </div>
+
+                <div>
+                  <h3>{analysisResult.totalMissingSkills}</h3>
+                  <p>Missing Skills</p>
+                </div>
+              </div>
+
+              <div className="analysis-skills">
+                <div>
+                  <h3>Matched Skills</h3>
+
+                  {analysisResult.matchedSkills.length > 0 ? (
+                    <ul>
+                      {analysisResult.matchedSkills.map((skill) => (
+                        <li key={skill}>{skill}</li>
+                      ))}
+                    </ul>
+                  ) : (
+                    <p>No matching skills found.</p>
+                  )}
+                </div>
+
+                <div>
+                  <h3>Missing Skills</h3>
+
+                  {analysisResult.missingSkills.length > 0 ? (
+                    <ul>
+                      {analysisResult.missingSkills.map((skill) => (
+                        <li key={skill}>{skill}</li>
+                      ))}
+                    </ul>
+                  ) : (
+                    <p>No missing skills found.</p>
+                  )}
+                </div>
+              </div>
+
+            </div>
+          )}
         </div>
 
       </section>
