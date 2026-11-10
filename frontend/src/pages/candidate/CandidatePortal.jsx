@@ -47,16 +47,20 @@ function CandidatePortal() {
       setUploadedResumes(resumeResponse.data.resumes)
       setUploadedJDs(jdResponse.data.jobDescriptions)
 
-    } catch (error) {
+    } catch {
       setHistoryError('Unable to load upload history.')
     } finally {
       setHistoryLoading(false)
     }
-  }, [user?.id])
+  }, [user])
 
   // Load History When Dashboard Opens
   useEffect(() => {
-    fetchUploadHistory()
+    const timer = setTimeout(() => {
+      fetchUploadHistory()
+    }, 0)
+
+    return () => clearTimeout(timer)
   }, [fetchUploadHistory])
 
   // Resume File Selection
