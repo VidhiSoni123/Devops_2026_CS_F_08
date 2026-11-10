@@ -113,5 +113,49 @@ router.post("/multiple", (req, res) => {
         }
     });
 });
+// Get Candidate's Uploaded Resumes
+router.get("/my-resumes", async (req, res) => {
+    try {
+        const candidateId = req.headers["x-candidate-id"];
 
+        if (!candidateId || !mongoose.Types.ObjectId.isValid(candidateId)) {
+            return res.status(400).json({
+                success: false,
+                message: "Valid candidate ID is required."
+            });
+        }
+
+        const candidate = await User.findOne({
+            _id: candidateId,
+            role: "candidate"
+        });
+
+        if (!candidate) {
+            return res.status(404).json({
+                success: false,
+                message: "Candidate not found."
+            });
+        }
+
+        const resumes = await Resume.find({
+            uploadedBy: candidate._id
+        })
+            .select("-filePath")
+            .sort({ createdAt: -1 });
+
+        return res.status(200).json({
+            success: true,
+            totalResumes: resumes.length,
+            resumes
+        });
+
+    } catch (error) {
+        console.error("Resume retrieval error:", error);
+
+        return res.status(500).json({
+            success: false,
+            message: "Failed to fetch uploaded resumes."
+        });
+    }
+});
 module.exports = router;

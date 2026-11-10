@@ -131,5 +131,50 @@ router.post("/upload", async (req, res) => {
         });
     }
 });
+// Get Candidate's Uploaded Job Descriptions
+router.get("/my-descriptions", async (req, res) => {
+    try {
+        const candidateId = req.headers["x-candidate-id"];
+
+        if (!candidateId || !mongoose.Types.ObjectId.isValid(candidateId)) {
+            return res.status(400).json({
+                success: false,
+                message: "Valid candidate ID is required."
+            });
+        }
+
+        const candidate = await User.findOne({
+            _id: candidateId,
+            role: "candidate"
+        });
+
+        if (!candidate) {
+            return res.status(404).json({
+                success: false,
+                message: "Candidate not found."
+            });
+        }
+
+        const jobDescriptions = await JobDescription.find({
+            uploadedBy: candidate._id
+        })
+            .select("-filePath")
+            .sort({ createdAt: -1 });
+
+        return res.status(200).json({
+            success: true,
+            totalJobDescriptions: jobDescriptions.length,
+            jobDescriptions
+        });
+
+    } catch (error) {
+        console.error("JD retrieval error:", error);
+
+        return res.status(500).json({
+            success: false,
+            message: "Failed to fetch job descriptions."
+        });
+    }
+});
 
 module.exports = router;

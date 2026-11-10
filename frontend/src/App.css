@@ -668,3 +668,122 @@
 .upload-result p {
   color: var(--text);
 }
+
+
+/* ==============================
+   CANDIDATE UPLOAD HISTORY
+================================ */
+
+.candidate-history-section {
+  margin: 30px 0;
+  padding: 25px;
+  background: #171923;
+  border: 1px solid #2d3040;
+  border-radius: 14px;
+  box-shadow: 0 5px 18px rgba(0, 0, 0, 0.2);
+}
+
+.history-header {
+  margin-bottom: 22px;
+}
+
+.history-header h2 {
+  color: #f8fafc;
+  font-size: 22px;
+  margin-bottom: 7px;
+}
+
+.history-header p {
+  color: #a1a1aa;
+  font-size: 14px;
+}
+
+.history-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.history-card {
+  padding: 20px;
+  background: #1d2130;
+  border: 1px solid #34384b;
+  border-radius: 12px;
+  transition: border-color 0.3s, transform 0.3s;
+}
+
+.history-card:hover {
+  border-color: #a855f7;
+  transform: translateY(-2px);
+}
+
+.history-card h3 {
+  color: #e9d5ff;
+  font-size: 16px;
+  margin-bottom: 16px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #34384b;
+}
+
+.history-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding: 13px 0;
+  border-bottom: 1px solid #34384b;
+}
+
+.history-item:last-child {
+  border-bottom: none;
+}
+
+.history-file-name {
+  color: #f1f5f9;
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  overflow-wrap: anywhere;
+}
+
+.history-item span {
+  color: #a1a1aa;
+  font-size: 12px;
+}
+
+.history-file-type {
+  flex-shrink: 0;
+  padding: 5px 11px;
+  color: #e9d5ff !important;
+  background: rgba(168, 85, 247, 0.18);
+  border: 1px solid rgba(168, 85, 247, 0.35);
+  border-radius: 20px;
+  font-weight: 600;
+}
+
+.history-empty,
+.history-message {
+  color: #a1a1aa;
+  font-size: 14px;
+  padding: 12px 0;
+}
+
+.history-error {
+  color: #fca5a5;
+  background: rgba(239, 68, 68, 0.12);
+  border: 1px solid rgba(239, 68, 68, 0.25);
+  padding: 12px;
+  border-radius: 8px;
+  font-size: 14px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .history-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .candidate-history-section {
+    padding: 18px;
+  }
+}

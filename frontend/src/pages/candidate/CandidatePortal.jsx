@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import axios from 'axios'
 import Sidebar from '../../components/Sidebar'
 import PortalHeader from '../../components/PortalHeader'
@@ -14,6 +14,50 @@ function CandidatePortal() {
   const [uploading, setUploading] = useState(false)
   const [uploadMessage, setUploadMessage] = useState('')
   const [jdUploadMessage, setJdUploadMessage] = useState('')
+
+  // Upload History States
+  const [uploadedResumes, setUploadedResumes] = useState([])
+  const [uploadedJDs, setUploadedJDs] = useState([])
+  const [historyLoading, setHistoryLoading] = useState(false)
+  const [historyError, setHistoryError] = useState('')
+
+  // Fetch Candidate Upload History
+  const fetchUploadHistory = useCallback(async () => {
+    if (!user?.id) return
+
+    try {
+      setHistoryLoading(true)
+      setHistoryError('')
+
+      const headers = {
+        'x-candidate-id': user.id
+      }
+
+      const [resumeResponse, jdResponse] = await Promise.all([
+        axios.get(
+          'http://localhost:5000/api/resumes/my-resumes',
+          { headers }
+        ),
+        axios.get(
+          'http://localhost:5000/api/job-descriptions/my-descriptions',
+          { headers }
+        )
+      ])
+
+      setUploadedResumes(resumeResponse.data.resumes)
+      setUploadedJDs(jdResponse.data.jobDescriptions)
+
+    } catch (error) {
+      setHistoryError('Unable to load upload history.')
+    } finally {
+      setHistoryLoading(false)
+    }
+  }, [user?.id])
+
+  // Load History When Dashboard Opens
+  useEffect(() => {
+    fetchUploadHistory()
+  }, [fetchUploadHistory])
 
   // Resume File Selection
   const handleResumeUpload = (event) => {
@@ -63,6 +107,8 @@ function CandidatePortal() {
       setUploadMessage(
         `${response.data.totalUploaded} resume(s) uploaded successfully.`
       )
+
+      await fetchUploadHistory()
 
     } catch (error) {
       setUploadMessage(
@@ -119,6 +165,8 @@ function CandidatePortal() {
 
       setJdUploadMessage(response.data.message)
 
+      await fetchUploadHistory()
+
     } catch (error) {
       setJdUploadMessage(
         error.response?.data?.message || 'JD upload failed.'
@@ -146,6 +194,7 @@ function CandidatePortal() {
           </p>
         </div>
 
+        {/* Upload Sections */}
         <div className="candidate-upload-grid">
 
           {/* Resume Upload Section */}
@@ -252,6 +301,112 @@ function CandidatePortal() {
             )}
           </div>
 
+        </div>
+
+        {/* Upload History Section */}
+        <div className="candidate-history-section">
+
+          <div className="history-header">
+            <h2>Your Upload History</h2>
+            <p>
+              View your previously uploaded resumes and job descriptions.
+            </p>
+          </div>
+
+          {historyLoading && (
+            <p className="history-message">
+              Loading upload history...
+            </p>
+          )}
+
+          {historyError && (
+            <p className="history-error">{historyError}</p>
+          )}
+
+          {!historyLoading && !historyError && (
+            <div className="history-grid">
+
+              {/* Resume History */}
+              <div className="history-card">
+                <h3>
+                  📄 Uploaded Resumes ({uploadedResumes.length})
+                </h3>
+
+                {uploadedResumes.length > 0 ? (
+                  uploadedResumes.map((resume) => (
+                    <div
+                      className="history-item"
+                      key={resume._id}
+                    >
+                      <div>
+                        <p className="history-file-name">
+                          {resume.originalFileName}
+                        </p>
+
+                        <span>
+                          {new Date(
+                            resume.createdAt
+                          ).toLocaleDateString()}
+                        </span>
+                      </div>
+
+                      <span className="history-file-type">
+                        PDF
+                      </span>
+                    </div>
+                  ))
+                ) : (
+                  <p className="history-empty">
+                    No resumes uploaded yet.
+                  </p>
+                )}
+              </div>
+
+              {/* JD History */}
+              <div className="history-card">
+                <h3>
+                  💼 Uploaded Job Descriptions ({uploadedJDs.length})
+                </h3>
+
+                {uploadedJDs.length > 0 ? (
+                  uploadedJDs.map((jd) => (
+                    <div
+                      className="history-item"
+                      key={jd._id}
+                    >
+                      <div>
+                        <p className="history-file-name">
+                          {jd.originalFileName ||
+                            'Text-based Job Description'}
+                        </p>
+
+                        <span>
+                          {new Date(
+                            jd.createdAt
+                          ).toLocaleDateString()}
+                        </span>
+                      </div>
+
+                      <span className="history-file-type">
+                        {jd.mimeType
+                          ? jd.mimeType.includes('pdf')
+                            ? 'PDF'
+                            : jd.mimeType.includes('wordprocessingml')
+                              ? 'DOCX'
+                              : 'DOC'
+                          : 'TEXT'}
+                      </span>
+                    </div>
+                  ))
+                ) : (
+                  <p className="history-empty">
+                    No job descriptions uploaded yet.
+                  </p>
+                )}
+              </div>
+
+            </div>
+          )}
         </div>
 
         {/* Resume Analysis Section */}
