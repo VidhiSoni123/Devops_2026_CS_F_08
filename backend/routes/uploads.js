@@ -25,6 +25,8 @@ const upload = multer({
     }
 });
 const EmployeeRecord = require("../models/EmployeeRecord");
+const fs = require("fs");
+const path = require("path");
 
 router.post("/csv", upload.single("file"), async (req, res) => {
     try {
@@ -52,6 +54,24 @@ router.post("/csv", upload.single("file"), async (req, res) => {
                 message: "Recruiter not found"
             });
         }
+        // Save original CSV to Data Lake Raw Layer
+const rawDirectory = path.join(__dirname, "../../data_lake/raw");
+
+fs.mkdirSync(rawDirectory, { recursive: true });
+
+const safeFileName = req.file.originalname.replace(
+  /[^a-zA-Z0-9._-]/g,
+  "_"
+);
+
+const rawFileName = `${Date.now()}-${safeFileName}`;
+
+fs.writeFileSync(
+  path.join(rawDirectory, rawFileName),
+  req.file.buffer
+);
+
+console.log(`Raw CSV saved: ${rawFileName}`);
 
         const records = [];
 
@@ -69,9 +89,10 @@ const delimiter = firstLine.includes("\t") ? "\t" : ",";
 
 await new Promise((resolve, reject) => {
     const parser = csv({
-        separator: delimiter,
-        headers: columns
-    });
+    separator: delimiter,
+    headers: columns,
+    skipLines: 1
+});
 
     parser.on("data", (row) => {
         records.push(row);
