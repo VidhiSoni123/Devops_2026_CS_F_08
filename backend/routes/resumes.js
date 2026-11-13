@@ -6,6 +6,7 @@ const fs = require("fs");
 
 const Resume = require("../models/Resume");
 const User = require("../models/User");
+const extractText = require("../utils/extractText");
 
 const router = express.Router();
 
@@ -13,6 +14,7 @@ const uploadDir = path.join(__dirname, "../uploads/resumes");
 
 fs.mkdirSync(uploadDir, { recursive: true });
 
+// Multer Storage
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
         cb(null, uploadDir);
@@ -26,6 +28,7 @@ const storage = multer.diskStorage({
     }
 });
 
+// Upload Configuration
 const upload = multer({
     storage,
 
@@ -47,6 +50,44 @@ const upload = multer({
     }
 });
 
+// Technical Skills Database
+const skillsDatabase = [
+    "C", "C++", "Java", "Python", "JavaScript", "TypeScript",
+    "HTML", "CSS", "React", "Node.js", "Express",
+    "MongoDB", "MySQL", "SQL", "PostgreSQL",
+    "Data Structures", "Algorithms", "OOP",
+    "Machine Learning", "Deep Learning", "Artificial Intelligence",
+    "Data Analysis", "Data Engineering", "PySpark",
+    "Azure", "AWS", "Docker", "Kubernetes",
+    "Git", "GitHub", "Power BI", "Tableau",
+    "Pandas", "NumPy", "Scikit-learn",
+    "REST API", "Django", "Flask", "Spring Boot",
+    "Communication", "Problem Solving", "Leadership"
+];
+
+// Extract Skills from Resume Text
+function extractSkills(text) {
+    const normalizedText = text.toLowerCase();
+
+    return skillsDatabase.filter((skill) => {
+        const escapedSkill = skill.replace(
+            /[.*+?^${}()|[\]\\]/g,
+            "\\$&"
+        );
+
+        const regex = new RegExp(
+            `(^|[^a-z0-9+#.])${escapedSkill.toLowerCase()}([^a-z0-9+#.]|$)`,
+            "i"
+        );
+
+        return regex.test(normalizedText);
+    });
+}
+
+// ==========================================
+// CANDIDATE: Upload Multiple Resumes
+// ==========================================
+
 router.post("/multiple", (req, res) => {
     upload.array("resumes", 10)(req, res, async (err) => {
         if (err) {
@@ -59,7 +100,10 @@ router.post("/multiple", (req, res) => {
         try {
             const candidateId = req.headers["x-candidate-id"];
 
-            if (!candidateId || !mongoose.Types.ObjectId.isValid(candidateId)) {
+            if (
+                !candidateId ||
+                !mongoose.Types.ObjectId.isValid(candidateId)
+            ) {
                 return res.status(400).json({
                     success: false,
                     message: "Valid candidate ID is required."
@@ -94,9 +138,10 @@ router.post("/multiple", (req, res) => {
                 uploadedBy: candidate._id
             }));
 
-            const savedResumes = await Resume.insertMany(resumeDocuments);
+            const savedResumes =
+                await Resume.insertMany(resumeDocuments);
 
-            res.status(201).json({
+            return res.status(201).json({
                 success: true,
                 message: "Resumes uploaded successfully.",
                 totalUploaded: savedResumes.length,
@@ -106,19 +151,26 @@ router.post("/multiple", (req, res) => {
         } catch (error) {
             console.error("Resume upload error:", error);
 
-            res.status(500).json({
+            return res.status(500).json({
                 success: false,
                 message: "Resume upload failed."
             });
         }
     });
 });
-// Get Candidate's Uploaded Resumes
+
+// ==========================================
+// CANDIDATE: Get Own Uploaded Resumes
+// ==========================================
+
 router.get("/my-resumes", async (req, res) => {
     try {
         const candidateId = req.headers["x-candidate-id"];
 
-        if (!candidateId || !mongoose.Types.ObjectId.isValid(candidateId)) {
+        if (
+            !candidateId ||
+            !mongoose.Types.ObjectId.isValid(candidateId)
+        ) {
             return res.status(400).json({
                 success: false,
                 message: "Valid candidate ID is required."
@@ -158,4 +210,141 @@ router.get("/my-resumes", async (req, res) => {
         });
     }
 });
+
+// ==========================================
+// RECRUITER: Search and Filter Candidates
+// ==========================================
+
+router.get("/recruiter/search", async (req, res) => {
+    try {
+        const recruiterId = req.headers["x-recruiter-id"];
+        const { search = "", skill = "" } = req.query;
+
+        if (
+            !recruiterId ||
+            !mongoose.Types.ObjectId.isValid(recruiterId)
+        ) {
+            return res.status(400).json({
+                success: false,
+                message: "Valid recruiter ID is required."
+            });
+        }
+
+        const recruiter = await User.findOne({
+            _id: recruiterId,
+            role: "recruiter"
+        });
+
+        if (!recruiter) {
+            return res.status(404).json({
+                success: false,
+                message: "Recruiter not found."
+            });
+        }
+
+        // Search by candidate name or email
+        const searchRegex = search
+            ? new RegExp(
+                search.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"),
+                "i"
+            )
+            : null;
+
+        const candidateQuery = {
+            role: "candidate"
+        };
+
+        if (searchRegex) {
+            candidateQuery.$or = [
+                { name: searchRegex },
+                { email: searchRegex }
+            ];
+        }
+
+        const candidates = await User.find(candidateQuery)
+            .select("name email createdAt")
+            .limit(100)
+            .sort({ createdAt: -1 });
+
+        const results = [];
+
+        for (const candidate of candidates) {
+            const resumes = await Resume.find({
+                uploadedBy: candidate._id
+            })
+                .select("-filePath")
+                .sort({ createdAt: -1 });
+
+            const candidateSkills = new Set();
+
+            // Extract skills from uploaded resumes
+            for (const resume of resumes) {
+                try {
+                    const resumeText = await extractText(
+                        path.join(uploadDir, resume.storedFileName)
+                    );
+
+                    const skills = extractSkills(resumeText);
+
+                    skills.forEach((item) =>
+                        candidateSkills.add(item)
+                    );
+
+                } catch (error) {
+                    console.error(
+                        "Resume extraction error:",
+                        error.message
+                    );
+                }
+            }
+
+            const skills = [...candidateSkills];
+
+            // Skills Filter
+            if (
+                skill &&
+                !skills.some(
+                    (item) =>
+                        item.toLowerCase() === skill.toLowerCase()
+                )
+            ) {
+                continue;
+            }
+
+            results.push({
+                candidateId: candidate._id,
+                name: candidate.name,
+                email: candidate.email,
+                joinedAt: candidate.createdAt,
+                totalResumes: resumes.length,
+                skills,
+
+                resumes: resumes.map((resume) => ({
+                    id: resume._id,
+                    fileName: resume.originalFileName,
+                    fileSize: resume.fileSize,
+                    uploadedAt: resume.createdAt
+                }))
+            });
+        }
+
+        return res.status(200).json({
+            success: true,
+            totalCandidates: results.length,
+            candidates: results
+        });
+
+    } catch (error) {
+        console.error(
+            "Recruiter candidate search error:",
+            error
+        );
+
+        return res.status(500).json({
+            success: false,
+            message: "Failed to search candidates."
+        });
+    }
+});
+
 module.exports = router;
