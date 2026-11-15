@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import API from '../../services/api'
 import Sidebar from '../../components/Sidebar'
 import PortalHeader from '../../components/PortalHeader'
@@ -13,29 +13,39 @@ function ResumeAnalysis() {
   const [detailLoading, setDetailLoading] = useState(false)
   const [error, setError] = useState('')
 
-  const headers = {
+  const headers = useMemo(() => ({
     'x-candidate-id': user?.id
-  }
+  }), [user?.id])
 
-  const fetchHistory = useCallback(async () => {
+  useEffect(() => {
+  let ignore = false
+
+  async function loadHistory() {
     if (!user?.id) return
 
     try {
-      setLoading(true)
-      setError('')
-
       const response = await API.get('/analysis/history', { headers })
-      setHistory(response.data.history || [])
-    } catch (err) {
-      setError(err.response?.data?.message || 'Unable to load analysis history.')
-    } finally {
-      setLoading(false)
-    }
-  }, [user?.id])
 
-  useEffect(() => {
-    fetchHistory()
-  }, [fetchHistory])
+      if (!ignore) {
+        setHistory(response.data.history || [])
+      }
+    } catch (err) {
+      if (!ignore) {
+        setError(err.response?.data?.message || 'Unable to load analysis history.')
+      }
+    } finally {
+      if (!ignore) {
+        setLoading(false)
+      }
+    }
+  }
+
+  loadHistory()
+
+  return () => {
+    ignore = true
+  }
+}, [user?.id, headers])
 
   const openAnalysis = async (analysisId) => {
     try {
@@ -74,7 +84,6 @@ function ResumeAnalysis() {
         />
 
         <div className="candidate-analysis-page">
-
           <div className="analysis-history-header">
             <div>
               <h2>Analysis History</h2>
@@ -94,14 +103,18 @@ function ResumeAnalysis() {
           ) : history.length === 0 ? (
             <div className="analysis-empty">
               <h3>No analysis history found</h3>
-              <p>Upload your resume and analyze it against a job description to get started.</p>
+              <p>
+                Upload your resume and analyze it against a job description to get started.
+              </p>
             </div>
           ) : (
             <div className="analysis-history-list">
               {history.map((item) => (
                 <div className="analysis-history-card" key={item._id}>
                   <div className="analysis-history-info">
-                    <h3>{item.resumeName || item.resume?.originalFileName || 'Resume'}</h3>
+                    <h3>
+                      {item.resumeName || item.resume?.originalFileName || 'Resume'}
+                    </h3>
                     <p>
                       Job Description: {item.jobDescriptionName || item.jobDescription?.originalFileName || 'Job Description'}
                     </p>
@@ -215,7 +228,13 @@ function ResumeAnalysis() {
 
               <div className="analysis-report-card">
                 <h3>Skill Gap Analysis</h3>
-                <pre>{JSON.stringify(report.skillGapAnalysis || 'No skill gap data available.', null, 2)}</pre>
+                <pre>
+                  {JSON.stringify(
+                    report.skillGapAnalysis || 'No skill gap data available.',
+                    null,
+                    2
+                  )}
+                </pre>
               </div>
 
               <div className="analysis-report-card">
@@ -231,34 +250,37 @@ function ResumeAnalysis() {
 
               <div className="analysis-report-card">
                 <h3>Action Verb Suggestions</h3>
-                <pre>{JSON.stringify(report.actionVerbSuggestions || [], null, 2)}</pre>
+                <pre>
+                  {JSON.stringify(report.actionVerbSuggestions || [], null, 2)}
+                </pre>
               </div>
 
               <div className="analysis-report-card">
                 <h3>Formatting Issues</h3>
                 {report.formattingIssues?.length
                   ? report.formattingIssues.map((issue, index) => (
-                      <p key={index}>• {typeof issue === 'string' ? issue : JSON.stringify(issue)}</p>
+                      <p key={index}>
+                        • {typeof issue === 'string' ? issue : JSON.stringify(issue)}
+                      </p>
                     ))
                   : <p>No formatting issues detected.</p>}
               </div>
 
               <div className="analysis-report-card">
-  <h3>Improvement Recommendations</h3>
+                <h3>Improvement Recommendations</h3>
 
-  {report.analysisReport?.recommendations?.length ? (
-    <ul className="analysis-recommendations-list">
-      {report.analysisReport.recommendations.map((recommendation, index) => (
-        <li key={index}>{recommendation}</li>
-      ))}
-    </ul>
-  ) : (
-    <p>No improvement recommendations available.</p>
-  )}
-</div>
+                {report.analysisReport?.recommendations?.length ? (
+                  <ul className="analysis-recommendations-list">
+                    {report.analysisReport.recommendations.map((recommendation, index) => (
+                      <li key={index}>{recommendation}</li>
+                    ))}
+                  </ul>
+                ) : (
+                  <p>No improvement recommendations available.</p>
+                )}
+              </div>
             </div>
           )}
-
         </div>
       </section>
     </div>

@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect} from "react";
 import API from "../../services/api";
 import Sidebar from "../../components/Sidebar";
 import PortalHeader from "../../components/PortalHeader";
@@ -164,33 +164,42 @@ function JobRecommendations() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
 
-    const fetchRecommendations = useCallback(async () => {
-        try {
-            setLoading(true);
-            setError("");
+    useEffect(() => {
+    let ignore = false;
 
+    async function loadRecommendations() {
+        try {
             const response = await API.get("/analysis/recommendations", {
                 headers: {
                     "x-candidate-id": user.id
                 }
             });
 
-            setRecommendations(response.data.recommendations || []);
-            setResumeName(response.data.resumeName || "");
+            if (!ignore) {
+                setRecommendations(response.data.recommendations || []);
+                setResumeName(response.data.resumeName || "");
+            }
 
         } catch (err) {
-            setError(
-                err.response?.data?.message ||
-                "Unable to load job recommendations."
-            );
+            if (!ignore) {
+                setError(
+                    err.response?.data?.message ||
+                    "Unable to load job recommendations."
+                );
+            }
         } finally {
-            setLoading(false);
+            if (!ignore) {
+                setLoading(false);
+            }
         }
-    }, [user.id]);
+    }
 
-    useEffect(() => {
-        fetchRecommendations();
-    }, [fetchRecommendations]);
+    loadRecommendations();
+
+    return () => {
+        ignore = true;
+    };
+}, [user.id]);
 
     const getScoreClass = (score) => {
         if (score >= 80) return "strong";
