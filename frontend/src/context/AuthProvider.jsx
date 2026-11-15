@@ -9,23 +9,23 @@ export function AuthProvider({ children }) {
   });
 
   const login = (userData) => {
-  const loggedInUser =
-    typeof userData === "string"
-      ? { type: userData }
-      : {
-          type: userData.role,
-          id: userData.id,
-          name: userData.name,
-          email: userData.email,
-        };
+    const loggedInUser =
+      typeof userData === "string"
+        ? { type: userData }
+        : {
+            type: userData.role,
+            id: userData.id || userData._id,
+            name: userData.name,
+            email: userData.email,
+          };
 
-  setUser(loggedInUser);
+    setUser(loggedInUser);
 
-  localStorage.setItem(
-    "careerCompassUser",
-    JSON.stringify(loggedInUser)
-  );
-};
+    localStorage.setItem(
+      "careerCompassUser",
+      JSON.stringify(loggedInUser)
+    );
+  };
 
   const logout = () => {
     setUser(null);

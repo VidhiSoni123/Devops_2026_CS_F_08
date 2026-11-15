@@ -553,11 +553,10 @@ function CandidatePortal() {
           {analysisResult && (
             <div className="analysis-result">
 
-              <h2>ATS Analysis Results</h2>
+              <h2>ATS Analysis Report</h2>
 
               <p>
-                <strong>Resume:</strong>{' '}
-                {analysisResult.resumeName}
+                <strong>Resume:</strong> {analysisResult.resumeName}
               </p>
 
               <p>
@@ -565,14 +564,20 @@ function CandidatePortal() {
                 {analysisResult.jobDescriptionName}
               </p>
 
+              {/* Overall Score */}
               <div className="ats-score">
                 <h3>ATS Compatibility Score</h3>
 
                 <div className="ats-score-value">
                   {analysisResult.atsScore}%
                 </div>
+
+                <h3>
+                  {analysisResult.analysisReport?.scoreCategory}
+                </h3>
               </div>
 
+              {/* Skill Statistics */}
               <div className="analysis-stats">
                 <div>
                   <h3>{analysisResult.totalRequiredSkills}</h3>
@@ -590,11 +595,38 @@ function CandidatePortal() {
                 </div>
               </div>
 
+              {/* Keyword Analysis */}
+              <div className="analysis-report-section">
+                <h3>Keyword Analysis</h3>
+
+                <h2>{analysisResult.keywordMatchScore}%</h2>
+
+                <p>
+                  Matched Keywords:{' '}
+                  {analysisResult.matchedKeywords?.length || 0}
+                </p>
+
+                <p>
+                  Missing Keywords:{' '}
+                  {analysisResult.missingKeywords?.length || 0}
+                </p>
+
+                <h4>Missing Keywords</h4>
+
+                <div className="analysis-tags">
+                  {analysisResult.missingKeywords?.map((keyword) => (
+                    <span key={keyword}>{keyword}</span>
+                  ))}
+                </div>
+              </div>
+
+              {/* Matched and Missing Skills */}
               <div className="analysis-skills">
+
                 <div>
                   <h3>Matched Skills</h3>
 
-                  {analysisResult.matchedSkills.length > 0 ? (
+                  {analysisResult.matchedSkills?.length > 0 ? (
                     <ul>
                       {analysisResult.matchedSkills.map((skill) => (
                         <li key={skill}>{skill}</li>
@@ -608,7 +640,7 @@ function CandidatePortal() {
                 <div>
                   <h3>Missing Skills</h3>
 
-                  {analysisResult.missingSkills.length > 0 ? (
+                  {analysisResult.missingSkills?.length > 0 ? (
                     <ul>
                       {analysisResult.missingSkills.map((skill) => (
                         <li key={skill}>{skill}</li>
@@ -618,12 +650,93 @@ function CandidatePortal() {
                     <p>No missing skills found.</p>
                   )}
                 </div>
+
+              </div>
+
+              {/* Skill Gap Analysis */}
+              <div className="analysis-report-section">
+                <h3>Skill Gap Analysis</h3>
+
+                <p>
+                  Total Skill Gaps:{' '}
+                  {analysisResult.skillGapAnalysis?.totalGaps || 0}
+                </p>
+
+                {analysisResult.skillGapAnalysis?.priority?.map((item) => (
+                  <div
+                    className="analysis-report-item"
+                    key={item.skill}
+                  >
+                    <strong>{item.skill}</strong>
+                    <p>{item.message}</p>
+                  </div>
+                ))}
+              </div>
+
+              {/* Weak Action Verbs */}
+              <div className="analysis-report-section">
+                <h3>Weak Action Verbs</h3>
+
+                {analysisResult.weakVerbs?.length > 0 ? (
+                  analysisResult.actionVerbSuggestions?.map((item) => (
+                    <div
+                      className="analysis-report-item"
+                      key={item.weakVerb}
+                    >
+                      <strong>{item.weakVerb}</strong>
+
+                      <p>
+                        Suggested alternatives:{' '}
+                        {item.suggestions?.join(', ')}
+                      </p>
+                    </div>
+                  ))
+                ) : (
+                  <p>No weak action verbs detected.</p>
+                )}
+              </div>
+
+              {/* Formatting Issues */}
+              <div className="analysis-report-section">
+                <h3>Resume Formatting Analysis</h3>
+
+                <p>
+                  Issues Found:{' '}
+                  {analysisResult.formattingIssues?.length || 0}
+                </p>
+
+                {analysisResult.formattingIssues?.length > 0 ? (
+                  <ul>
+                    {analysisResult.formattingIssues.map((issue, index) => (
+                      <li key={index}>{issue}</li>
+                    ))}
+                  </ul>
+                ) : (
+                  <p>No basic formatting issues detected.</p>
+                )}
+              </div>
+
+              {/* Recommendations */}
+              <div className="analysis-report-section">
+                <h3>Improvement Recommendations</h3>
+
+                {analysisResult.analysisReport?.recommendations?.length > 0 ? (
+                  <ul>
+                    {analysisResult.analysisReport.recommendations.map(
+                      (recommendation, index) => (
+                        <li key={index}>{recommendation}</li>
+                      )
+                    )}
+                  </ul>
+                ) : (
+                  <p>No additional recommendations.</p>
+                )}
               </div>
 
             </div>
           )}
-        </div>
 
+        </div>
       </section>
     </div>
   )

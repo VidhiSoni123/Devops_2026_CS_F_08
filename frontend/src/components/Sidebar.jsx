@@ -32,6 +32,9 @@ function Sidebar({ role }) {
             <NavLink to="/recruiter/analytics">
               Analytics
             </NavLink>
+            <NavLink to="/recruiter/compare">
+  Compare Candidates
+</NavLink>
           </>
         ) : (
           <>
@@ -41,6 +44,9 @@ function Sidebar({ role }) {
 
             <NavLink to="/candidate/jobs">
               Job Recommendations
+            </NavLink>
+            <NavLink to="/candidate/analytics">
+              My Analytics
             </NavLink>
           </>
         )}

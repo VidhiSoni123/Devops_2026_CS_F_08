@@ -69,7 +69,7 @@ function CandidateSignup() {
 
         console.log(response.data);
 
-        login("candidate");
+        login(response.data.user);
         navigate("/candidate");
       } catch (error) {
         const message =

@@ -18,6 +18,10 @@ import { AuthProvider } from './context/AuthProvider'
 import ProtectedRoute from './components/ProtectedRoute'
 import Sidebar from './components/Sidebar'
 import PortalHeader from './components/PortalHeader'
+import ResumeAnalysis from './pages/candidate/ResumeAnalysis'
+import JobRecommendations from './pages/candidate/JobRecommendations'
+import CandidateComparison from './pages/recruiter/CandidateComparison'
+import CandidateAnalytics from './pages/candidate/CandidateAnalytics'
 
 function App() {
   return (
@@ -70,6 +74,26 @@ function App() {
                 </ProtectedRoute>
               }
             />
+            {/* Recruiter Candidate Comparison */}
+<Route
+  path="/recruiter/compare"
+  element={
+    <ProtectedRoute role="recruiter">
+      <div className="portal-layout">
+        <Sidebar role="recruiter" />
+
+        <section className="portal-content">
+          <PortalHeader
+            title="Candidate Comparison"
+            description="Compare multiple candidate profiles and skills."
+          />
+
+          <CandidateComparison />
+        </section>
+      </div>
+    </ProtectedRoute>
+  }
+/>
 
             {/* Recruiter Analytics */}
             <Route
@@ -90,6 +114,43 @@ function App() {
                 </ProtectedRoute>
               }
             />
+            <Route
+  path="/candidate/resume"
+  element={
+    <ProtectedRoute role="candidate">
+      <ResumeAnalysis />
+    </ProtectedRoute>
+  }
+/>
+{/* Candidate Job Recommendations */}
+<Route
+  path="/candidate/jobs"
+  element={
+    <ProtectedRoute role="candidate">
+      <JobRecommendations />
+    </ProtectedRoute>
+  }
+/>
+{/* Candidate Analytics */}
+<Route
+  path="/candidate/analytics"
+  element={
+    <ProtectedRoute role="candidate">
+      <div className="portal-layout">
+        <Sidebar role="candidate" />
+
+        <section className="portal-content">
+          <PortalHeader
+            title="My Analytics"
+            description="Track your resume and ATS performance."
+          />
+
+          <CandidateAnalytics />
+        </section>
+      </div>
+    </ProtectedRoute>
+  }
+/>
 
             {/* Candidate Login & Signup */}
             <Route

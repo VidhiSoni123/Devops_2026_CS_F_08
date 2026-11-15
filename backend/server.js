@@ -24,6 +24,7 @@ const uploadRoutes = require("./routes/uploads");
 const resumeRoutes = require("./routes/resumes");
 const jobDescriptionRoutes = require("./routes/jobDescriptions");
 const analysisRoutes = require("./routes/analysis");
+const analyticsRoutes = require("./routes/analytics");
 
 register.registerMetric(httpRequestsTotal);
 
@@ -50,6 +51,7 @@ app.use("/api/uploads", uploadRoutes);
 app.use("/api/resumes", resumeRoutes);
 app.use("/api/job-descriptions", jobDescriptionRoutes);
 app.use("/api/analysis", analysisRoutes);
+app.use("/api/analytics", analyticsRoutes);
 
 app.get("/metrics", async (req, res) => {
 res.set("Content-Type", register.contentType);

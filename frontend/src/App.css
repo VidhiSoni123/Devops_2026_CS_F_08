@@ -1669,3 +1669,1280 @@
     }
 }
 
+/* ATS Enhanced Analysis Report */
+
+.analysis-report-section {
+  margin-top: 22px;
+  padding: 22px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+}
+
+.analysis-report-section h3 {
+  color: var(--text);
+  font-size: 18px;
+  margin-bottom: 14px;
+}
+
+.analysis-report-section h2 {
+  color: var(--accent);
+  font-size: 30px;
+  margin: 12px 0;
+}
+
+.analysis-report-section h4 {
+  color: var(--text);
+  margin-top: 18px;
+  margin-bottom: 10px;
+}
+
+.analysis-report-section p,
+.analysis-report-section li {
+  color: var(--text-muted);
+  line-height: 1.7;
+}
+
+.analysis-report-section ul {
+  padding-left: 22px;
+  margin-top: 12px;
+}
+
+.analysis-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 9px;
+  margin-top: 12px;
+}
+
+.analysis-tags span {
+  padding: 7px 12px;
+  border-radius: 20px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  color: var(--text);
+  font-size: 13px;
+}
+
+.analysis-report-item {
+  margin-top: 12px;
+  padding: 14px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 9px;
+}
+
+.analysis-report-item strong {
+  display: block;
+  color: var(--accent);
+  margin-bottom: 6px;
+}
+
+.analysis-report-item p {
+  margin: 0;
+  font-size: 14px;
+}
+
+@media (max-width: 768px) {
+  .analysis-report-section {
+    padding: 16px;
+  }
+
+  .analysis-report-section h2 {
+    font-size: 25px;
+  }
+
+  .analysis-tags {
+    gap: 7px;
+  }
+}
+/* Candidate Resume Analysis */
+
+.candidate-analysis-page {
+  padding: 24px;
+}
+
+.analysis-history-header,
+.analysis-detail-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 24px;
+}
+
+.analysis-history-header h2,
+.analysis-detail-heading h2 {
+  margin: 0 0 6px;
+}
+
+.analysis-history-header p,
+.analysis-detail-heading p {
+  color: #777;
+  margin: 0;
+}
+
+.analysis-total-card,
+.analysis-score-card {
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 18px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.analysis-total-card strong {
+  font-size: 26px;
+}
+
+.analysis-history-list {
+  display: grid;
+  gap: 14px;
+}
+
+.analysis-history-card {
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.analysis-history-info {
+  flex: 1;
+}
+
+.analysis-history-info h3 {
+  margin: 0 0 8px;
+}
+
+.analysis-history-info p,
+.analysis-history-info span {
+  color: #777;
+  font-size: 14px;
+}
+
+.analysis-history-score {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.analysis-history-score strong {
+  font-size: 25px;
+  color: #2563eb;
+}
+
+.analysis-history-score span {
+  font-size: 12px;
+  color: #777;
+}
+
+.analysis-view-button,
+.analysis-close-button {
+  border: none;
+  border-radius: 8px;
+  padding: 10px 16px;
+  background: #2563eb;
+  color: white;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.analysis-view-button:hover,
+.analysis-close-button:hover {
+  background: #1d4ed8;
+}
+
+.analysis-empty,
+.analysis-status {
+  padding: 24px;
+  text-align: center;
+  color: #777;
+}
+
+.analysis-empty {
+  background: #fff;
+  border: 1px dashed #d1d5db;
+  border-radius: 12px;
+}
+
+.analysis-error {
+  background: #fee2e2;
+  color: #b91c1c;
+  padding: 12px 16px;
+  border-radius: 8px;
+  margin-bottom: 16px;
+}
+
+.analysis-detail-section {
+  margin-top: 36px;
+  display: grid;
+  gap: 18px;
+}
+
+.analysis-score-card {
+  align-items: center;
+  background: #eff6ff;
+  border-color: #bfdbfe;
+}
+
+.analysis-score-card strong {
+  font-size: 42px;
+  color: #2563eb;
+}
+
+.analysis-report-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.analysis-report-card {
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 20px;
+  overflow-wrap: anywhere;
+}
+
+.analysis-report-card h3 {
+  margin: 0 0 16px;
+}
+
+.analysis-report-card p {
+  color: #555;
+  line-height: 1.6;
+}
+
+.analysis-report-card pre {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  font-size: 13px;
+  color: #444;
+  font-family: inherit;
+}
+
+.analysis-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.analysis-tag {
+  padding: 6px 11px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.analysis-tag.matched {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.analysis-tag.missing {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+@media (max-width: 768px) {
+  .analysis-history-card {
+    flex-wrap: wrap;
+  }
+
+  .analysis-report-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .analysis-history-header,
+  .analysis-detail-heading {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}
+
+/* Resume Analysis - UI Contrast Fix */
+
+.candidate-analysis-page {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  color: #1e293b;
+}
+
+.candidate-analysis-page h2,
+.candidate-analysis-page h3,
+.candidate-analysis-page strong {
+  color: #172033;
+}
+
+.candidate-analysis-page p {
+  color: #475569;
+}
+
+.analysis-history-header p,
+.analysis-detail-heading p {
+  color: #64748b !important;
+}
+
+.analysis-total-card,
+.analysis-history-card,
+.analysis-report-card {
+  background: #ffffff;
+  color: #1e293b;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
+}
+
+.analysis-history-info h3,
+.analysis-report-card h3 {
+  color: #172033 !important;
+}
+
+.analysis-history-info p,
+.analysis-history-info span,
+.analysis-history-score span {
+  color: #64748b !important;
+}
+
+.analysis-report-card p {
+  color: #334155 !important;
+}
+
+.analysis-report-card pre {
+  color: #334155 !important;
+  background: #f8fafc;
+  padding: 14px;
+  border-radius: 8px;
+  line-height: 1.7;
+}
+
+.analysis-total-card span,
+.analysis-score-card span {
+  color: #475569;
+}
+
+.analysis-score-card {
+  background: #eff6ff;
+  border: 1px solid #bfdbfe;
+}
+
+.analysis-score-card strong {
+  color: #2563eb !important;
+}
+
+.analysis-history-card:hover {
+  border-color: #2563eb;
+  transform: translateY(-2px);
+  transition: 0.2s ease;
+}
+
+.analysis-report-grid {
+  width: 100%;
+}
+
+.analysis-report-card {
+  min-width: 0;
+}
+
+.analysis-empty h3 {
+  color: #172033;
+}
+
+.analysis-empty p {
+  color: #64748b;
+}
+
+@media (max-width: 768px) {
+  .candidate-analysis-page {
+    padding: 12px;
+  }
+
+  .analysis-history-card {
+    align-items: flex-start;
+  }
+
+  .analysis-view-button {
+    width: 100%;
+  }
+}
+
+/* Resume Analysis - Dark Theme */
+
+.candidate-analysis-page {
+  width: 100%;
+  max-width: 1200px;
+  color: #f1f5f9;
+}
+
+.analysis-history-header h2,
+.analysis-detail-heading h2 {
+  color: #f8fafc !important;
+}
+
+.analysis-history-header p,
+.analysis-detail-heading p {
+  color: #aeb5d0 !important;
+}
+
+.analysis-total-card,
+.analysis-history-card,
+.analysis-report-card {
+  background: #202231 !important;
+  border: 1px solid #383b52 !important;
+  color: #f1f5f9 !important;
+  box-shadow: none;
+}
+
+.analysis-total-card span {
+  color: #aeb5d0 !important;
+}
+
+.analysis-total-card strong {
+  color: #c4a5ff !important;
+}
+
+.analysis-history-info h3,
+.analysis-report-card h3 {
+  color: #f8fafc !important;
+}
+
+.analysis-history-info p,
+.analysis-history-info span,
+.analysis-history-score span {
+  color: #aeb5d0 !important;
+}
+
+.analysis-history-score strong {
+  color: #c4a5ff !important;
+}
+
+.analysis-history-card:hover {
+  border-color: #a855f7 !important;
+  background: #292b3d !important;
+  transform: translateY(-2px);
+  transition: 0.2s ease;
+}
+
+.analysis-score-card {
+  background: #29243c !important;
+  border: 1px solid #7141a8 !important;
+}
+
+.analysis-score-card span {
+  color: #d8b4fe !important;
+}
+
+.analysis-score-card strong {
+  color: #c084fc !important;
+}
+
+.analysis-report-card p {
+  color: #bfc5df !important;
+}
+
+.analysis-report-card pre {
+  background: #171923 !important;
+  color: #d8dbea !important;
+  border: 1px solid #383b52;
+  border-radius: 8px;
+  padding: 15px;
+}
+
+.analysis-empty {
+  background: #202231 !important;
+  border-color: #383b52 !important;
+}
+
+.analysis-empty h3 {
+  color: #f8fafc !important;
+}
+
+.analysis-empty p,
+.analysis-status {
+  color: #aeb5d0 !important;
+}
+
+.analysis-tag.matched {
+  background: rgba(74, 222, 128, 0.12);
+  border: 1px solid rgba(74, 222, 128, 0.3);
+  color: #86efac !important;
+}
+
+.analysis-tag.missing {
+  background: rgba(248, 113, 113, 0.12);
+  border: 1px solid rgba(248, 113, 113, 0.3);
+  color: #fca5a5 !important;
+}
+/* Job Recommendations */
+
+.recommendation-page {
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+}
+
+.recommendation-resume-info,
+.recommendation-summary,
+.recommendation-card,
+.recommendation-empty {
+    background: var(--card-bg, #1e293b);
+    border: 1px solid var(--border-color, #334155);
+    border-radius: 12px;
+    padding: 20px;
+}
+
+.recommendation-resume-info {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.recommendation-resume-info span,
+.recommendation-summary span,
+.recommendation-date {
+    color: var(--text-secondary, #94a3b8);
+    font-size: 13px;
+}
+
+.recommendation-summary {
+    display: flex;
+    gap: 50px;
+}
+
+.recommendation-summary h2 {
+    margin: 8px 0 0;
+    font-size: 28px;
+}
+
+.recommendation-list {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.recommendation-card {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.recommendation-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+}
+
+.recommendation-card-header h3 {
+    margin: 0 0 8px;
+    font-size: 18px;
+}
+
+.recommendation-score {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 75px;
+}
+
+.recommendation-score strong {
+    font-size: 25px;
+}
+
+.recommendation-score span {
+    font-size: 12px;
+}
+
+.recommendation-score.strong,
+.recommendation-category.strong {
+    color: #22c55e;
+}
+
+.recommendation-score.moderate,
+.recommendation-category.moderate {
+    color: #eab308;
+}
+
+.recommendation-score.improve,
+.recommendation-category.improve {
+    color: #f97316;
+}
+
+.recommendation-score.low,
+.recommendation-category.low {
+    color: #ef4444;
+}
+
+.recommendation-progress {
+    height: 8px;
+    background: var(--border-color, #334155);
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.recommendation-progress div {
+    height: 100%;
+    background: #3b82f6;
+    border-radius: 20px;
+}
+
+.recommendation-category {
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.recommendation-stats {
+    display: flex;
+    gap: 35px;
+    flex-wrap: wrap;
+}
+
+.recommendation-stats div {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.recommendation-stats strong {
+    font-size: 20px;
+}
+
+.recommendation-stats span {
+    font-size: 12px;
+    color: var(--text-secondary, #94a3b8);
+}
+
+.recommendation-skills h4 {
+    margin: 0 0 12px;
+}
+
+.recommendation-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.recommendation-tags span {
+    padding: 6px 11px;
+    border-radius: 20px;
+    font-size: 12px;
+}
+
+.recommendation-tags .matched {
+    background: rgba(34, 197, 94, 0.15);
+    color: #22c55e;
+}
+
+.recommendation-tags .missing {
+    background: rgba(239, 68, 68, 0.15);
+    color: #ef4444;
+}
+
+.recommendation-message,
+.recommendation-empty {
+    text-align: center;
+    padding: 35px;
+}
+
+.recommendation-message.error {
+    color: #ef4444;
+}
+
+.recommendation-empty p {
+    color: var(--text-secondary, #94a3b8);
+}
+
+@media (max-width: 600px) {
+    .recommendation-summary {
+        gap: 25px;
+    }
+
+    .recommendation-card-header {
+        align-items: flex-start;
+    }
+
+    .recommendation-stats {
+        gap: 20px;
+    }
+}
+/* GitHub Project and Learning Recommendations */
+
+.recommended-learning-section {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border-color, #334155);
+}
+
+.recommended-learning-section h4 {
+    margin: 0;
+    font-size: 17px;
+}
+
+.section-description {
+    margin: 0;
+    color: var(--text-secondary, #94a3b8);
+    font-size: 13px;
+}
+
+.recommended-resource-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 14px;
+}
+
+.recommended-resource-card {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 16px;
+    border: 1px solid var(--border-color, #334155);
+    border-radius: 10px;
+    background: var(--bg-secondary, rgba(15, 23, 42, 0.5));
+}
+
+.resource-skill {
+    font-size: 11px;
+    font-weight: 600;
+    color: #60a5fa;
+    background: rgba(59, 130, 246, 0.12);
+    padding: 5px 9px;
+    border-radius: 20px;
+}
+
+.recommended-resource-card h5 {
+    margin: 0;
+    font-size: 14px;
+}
+
+.recommended-resource-card p {
+    margin: 0;
+    color: var(--text-secondary, #94a3b8);
+    font-size: 12px;
+    line-height: 1.6;
+}
+
+.recommended-resource-card a {
+    margin-top: auto;
+    color: #60a5fa;
+    font-size: 12px;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.recommended-resource-card a:hover {
+    text-decoration: underline;
+}
+/* ===================================
+   CANDIDATE COMPARISON PAGE
+=================================== */
+
+.comparison-page {
+    max-width: 1250px;
+    margin: 0 auto;
+    padding: 28px;
+    color: var(--text-primary, #f1f5f9);
+}
+
+.comparison-selection {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    margin: 28px 0 18px;
+    padding: 20px;
+    border: 1px solid #334155;
+    border-radius: 12px;
+    background: #1e293b;
+}
+
+.comparison-selection h3 {
+    margin: 0 0 7px;
+    font-size: 19px;
+}
+
+.comparison-selection p {
+    margin: 0;
+    color: #94a3b8;
+    font-size: 13px;
+}
+
+.comparison-selection > span {
+    padding: 9px 15px;
+    border-radius: 20px;
+    background: #1d4ed8;
+    color: white;
+    font-size: 13px;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+/* Candidate Selection */
+
+.comparison-candidate-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 16px;
+    margin-bottom: 22px;
+}
+
+.comparison-select-card {
+    display: flex;
+    align-items: flex-start;
+    gap: 13px;
+    padding: 20px;
+    border: 1px solid #334155;
+    border-radius: 12px;
+    background: #1e293b;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.comparison-select-card:hover {
+    border-color: #3b82f6;
+    transform: translateY(-2px);
+}
+
+.comparison-select-card.selected {
+    border: 1px solid #3b82f6;
+    background: #172b49;
+    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.12);
+}
+
+.comparison-select-card input {
+    width: 17px;
+    height: 17px;
+    margin-top: 3px;
+    accent-color: #3b82f6;
+    cursor: pointer;
+}
+
+.comparison-select-card h4 {
+    margin: 0 0 7px;
+    font-size: 15px;
+}
+
+.comparison-select-card p {
+    margin: 0 0 9px;
+    color: #94a3b8;
+    font-size: 12px;
+    overflow-wrap: anywhere;
+}
+
+.comparison-select-card small {
+    color: #60a5fa;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+/* Clear Selection */
+
+.comparison-page .secondary-btn {
+    padding: 10px 18px;
+    border: 1px solid #475569;
+    border-radius: 8px;
+    background: #334155;
+    color: white;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.comparison-page .secondary-btn:hover {
+    background: #475569;
+}
+
+/* Comparison Results */
+
+.comparison-results {
+    margin-top: 35px;
+}
+
+.comparison-results > h2 {
+    margin-bottom: 20px;
+    font-size: 23px;
+}
+
+.comparison-table-wrapper {
+    width: 100%;
+    overflow-x: auto;
+    border: 1px solid #334155;
+    border-radius: 12px;
+    background: #1e293b;
+}
+
+.comparison-table {
+    width: 100%;
+    min-width: 650px;
+    border-collapse: collapse;
+    text-align: left;
+}
+
+.comparison-table th,
+.comparison-table td {
+    padding: 15px 18px;
+    border-bottom: 1px solid #334155;
+    font-size: 13px;
+}
+
+.comparison-table th {
+    background: #26364d;
+    color: #93c5fd;
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.comparison-table th:first-child,
+.comparison-table td:first-child {
+    position: sticky;
+    left: 0;
+    background: #253449;
+    color: #f1f5f9;
+    font-weight: 600;
+    min-width: 150px;
+}
+
+.comparison-table tr:hover td {
+    background-color: #26364d;
+}
+
+.comparison-table tr:hover td:first-child {
+    background: #30445e;
+}
+
+.skill-present {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    background: rgba(34, 197, 94, 0.15);
+    color: #4ade80;
+    font-weight: 700;
+}
+
+.skill-absent {
+    color: #64748b;
+    font-size: 17px;
+}
+
+.best-candidate {
+    display: block;
+    width: fit-content;
+    margin-top: 7px;
+    padding: 4px 8px;
+    border-radius: 5px;
+    background: rgba(34, 197, 94, 0.15);
+    color: #4ade80;
+    font-size: 10px;
+}
+
+/* Summary Cards */
+
+.comparison-summary {
+    margin-top: 30px;
+}
+
+.comparison-summary h3 {
+    margin-bottom: 18px;
+    font-size: 20px;
+}
+
+.comparison-summary-card {
+    margin-bottom: 15px;
+    padding: 20px;
+    border: 1px solid #334155;
+    border-radius: 12px;
+    background: #1e293b;
+}
+
+.comparison-summary-card h4 {
+    margin: 0 0 14px;
+    color: #60a5fa;
+    font-size: 16px;
+}
+
+.comparison-summary-card p {
+    margin: 9px 0;
+    color: #cbd5e1;
+    font-size: 13px;
+    line-height: 1.7;
+}
+
+.comparison-summary-card strong {
+    color: #f8fafc;
+}
+
+@media (max-width: 600px) {
+    .comparison-page {
+        padding: 15px;
+    }
+
+    .comparison-selection {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .comparison-candidate-grid {
+        grid-template-columns: 1fr;
+    }
+}
+/* =========================================
+   CANDIDATE ANALYTICS DASHBOARD
+========================================= */
+
+.analytics-page {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding-bottom: 40px;
+    color: #f1f1f5;
+}
+
+/* Statistics Cards */
+
+.analytics-stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 20px;
+    margin: 28px 0;
+}
+
+.analytics-stat-card {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 24px 20px;
+    min-height: 125px;
+    background: #191a27;
+    border: 1px solid #292a3a;
+    border-radius: 14px;
+    transition: 0.25s ease;
+}
+
+.analytics-stat-card:hover {
+    transform: translateY(-4px);
+    border-color: #8854e8;
+    box-shadow: 0 8px 24px rgba(124, 58, 237, 0.12);
+}
+
+.analytics-stat-icon {
+    width: 48px;
+    height: 48px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+    background: rgba(139, 92, 246, 0.15);
+    color: #b794ff;
+    font-size: 22px;
+    font-weight: 700;
+}
+
+.analytics-stat-card p {
+    margin: 0 0 9px;
+    color: #a5a5b8;
+    font-size: 13px;
+}
+
+.analytics-stat-card h2 {
+    margin: 0;
+    color: #ffffff;
+    font-size: 27px;
+    font-weight: 700;
+}
+
+/* Common Sections */
+
+.analytics-section {
+    padding: 25px;
+    margin-bottom: 24px;
+    background: #191a27;
+    border: 1px solid #292a3a;
+    border-radius: 14px;
+}
+
+.analytics-section h2 {
+    margin: 0 0 22px;
+    color: #ffffff;
+    font-size: 20px;
+    font-weight: 650;
+}
+
+.analytics-empty {
+    margin: 0;
+    color: #9999ad;
+    font-size: 14px;
+    line-height: 1.7;
+}
+
+.analytics-error {
+    padding: 16px;
+    color: #ff9999;
+    background: rgba(239, 68, 68, 0.1);
+    border: 1px solid rgba(239, 68, 68, 0.25);
+    border-radius: 10px;
+}
+
+/* ATS Score Overview */
+
+.ats-overview {
+    display: flex;
+    align-items: center;
+    gap: 65px;
+    padding: 10px 20px;
+}
+
+.ats-score-circle {
+    width: 155px;
+    height: 155px;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    border: 9px solid #8051d9;
+    background: rgba(124, 58, 237, 0.08);
+}
+
+.ats-score-circle span {
+    color: #ffffff;
+    font-size: 34px;
+    font-weight: 750;
+}
+
+.ats-score-circle small {
+    margin-top: 5px;
+    color: #aaa9bd;
+    font-size: 12px;
+}
+
+.ats-overview-details {
+    flex: 1;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+.ats-overview-details div {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 18px;
+    background: #222333;
+    border-radius: 10px;
+}
+
+.ats-overview-details span {
+    color: #aaa9bd;
+    font-size: 13px;
+}
+
+.ats-overview-details strong {
+    color: #ffffff;
+    font-size: 24px;
+}
+
+/* Skills */
+
+.analytics-skills-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 22px;
+}
+
+.analytics-skills-grid .analytics-section {
+    margin-bottom: 0;
+}
+
+.analytics-skill-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.analytics-skill-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    padding: 14px 16px;
+    border-radius: 9px;
+    background: #222333;
+    border: 1px solid #303145;
+}
+
+.analytics-skill-item span {
+    color: #eeeeF5;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.analytics-skill-item strong {
+    flex-shrink: 0;
+    color: #b99aff;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.strong-skill {
+    border-left: 3px solid #22c58b;
+}
+
+.improve-skill {
+    border-left: 3px solid #f0a34a;
+}
+
+/* Responsive Design */
+
+@media (max-width: 1000px) {
+    .analytics-stats-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .ats-overview {
+        gap: 30px;
+    }
+
+    .ats-overview-details {
+        gap: 12px;
+    }
+}
+
+@media (max-width: 700px) {
+    .analytics-skills-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .ats-overview {
+        flex-direction: column;
+        padding: 10px 0;
+    }
+
+    .ats-overview-details {
+        width: 100%;
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 480px) {
+    .analytics-stats-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .analytics-section {
+        padding: 18px;
+    }
+}
